@@ -35,10 +35,27 @@ class NewVisitorTest(unittest.TestCase):
         self.browser.get('http://localhost:8000')
 
         self.assertIn('To-Do', self.browser.title)
+
+        header_text = self.browser.find_element_by_tag_name('h1').text
         self.fail('finish the test!')
 
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            'enter a to-do item'
+        )
+
+        inputbox = send_keys('Buy peacock feathers')
         # She is invited to enter a to-do item straight away
         ##[...rest of comments as before]
+        inputbox.send_keys(Keys.ENTER)
+        time.slee(1)
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_element_by_tag_name('tr')
+        self.assertTrue(
+            any(row.text == '1: Buy peacock feathers' for row in rows)
+        )
+        self.fail('Finish test!')
 
 if __name__ == '__main__':  
     unittest.main(warnings='ignore') 
