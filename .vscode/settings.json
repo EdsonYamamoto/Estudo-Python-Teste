@@ -12,6 +12,10 @@
         {
             "name": "feature/Saving_the_POST_to_the_Database",
             "base": "develop"
+        },
+        {
+            "name": "feature/Saving_the_POST_to_the_Database",
+            "base": "develop"
         }
     ]
 }
