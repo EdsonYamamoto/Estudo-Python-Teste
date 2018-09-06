@@ -1,3 +1,19 @@
 {
-    "python.pythonPath": "C:\\Users\\saoedson\\AppData\\Local\\Programs\\Python\\Python36\\python.exe"
+    "python.pythonPath": "C:\\Users\\saoedson\\AppData\\Local\\Programs\\Python\\Python36\\python.exe",
+    "gitflow4code.features": [
+        {
+            "name": "feature/Three_Strikes_and_Refactor",
+            "base": "develop"
+        },
+        {
+            "name": "feature/The_Django_ORM_and_Our_First_Model",
+            "base": "develop"
+        }
+    ],
+    "gitflow4code.releases": [
+        {
+            "name": "release/Release_1",
+            "base": "develop"
+        }
+    ]
 }
