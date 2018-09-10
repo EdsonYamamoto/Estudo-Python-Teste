@@ -45,8 +45,6 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('To-Do', self.browser.title)
 
         header_text = self.browser.find_element_by_tag_name('h1').text
-        #self.fail('finish the test!')
-
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
@@ -62,7 +60,6 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
         
         self.wait_for_row_in_in_list_table('1: Buy peacock feathers')
-        #self.fail('Finish test!')
 
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Use peacock feathers to make a fly')
@@ -83,3 +80,53 @@ class NewVisitorTest(LiveServerTestCase):
                 if time.time() - start_time>MAX_WAIT:
                     raise e
                 time.sleep(0.5)
+    #http://www.obeythetestinggoat.com/book/chapter_working_incrementally.html
+    def test_can_start_a_list_for_one_user(self):
+        self.wait_for_row_in_in_list_table('2: Use peacock feathers to make a fly')
+        self.wait_for_row_in_in_list_table('1: Buy paacock feathers')
+    
+    def test_multiple_users_can_start_lists_at_different_urls(self):
+        self.browser.get(self.live_server_url)
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('buy peacock feathers')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_in_list_table('1: buy peacock feathers')
+
+        edith_list_url = self.browser.current_url
+        self.assertRegex(edith_list_url, '/lists/.+')
+
+        ## um novo usuario quer acessar o sistema
+        ## We use a new browser session to make sure that no information
+        ## of Edith's is coming through from cookies etc
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+        self.browser.get(self.live_server_url)
+
+
+        page_text = self.browser.find_element_by_tag_name('body').text
+        
+        # Francis visits the home page.  There is no sign of Edith's
+        # list
+        self.assertNotIn('Buy peacock feathers', page_text)
+        self.assertNotIn('make a fly', page_text)
+        
+        ##francis decid inciar uma nova lista com entradas
+        input = self.browser.find_element_by_id('id_new_item')
+        input.send_keys('Buy milk')
+        input.send_keys(Keys.ENTER)
+
+        self.wait_for_row_in_in_list_table('1: Buy milk')
+
+
+        #francis tem a sua UNICA Url
+        francis_list_url = self.browser.find_element_by_id('id_new_item')
+        self.assertRegex(francis_list_url, '/lists/')
+        self.assertNotEqual(francis_list_url, edith_list_url)
+
+        # novamente nao deve existir nenhuma item da lista da eddith
+
+        page_text = self.browser.find_element_by_tag_name('body').find_element_by_link_text
+        self.assertNotIn('Buy peacock feathers', page_text)
+        self.assertIn('Buy milk', page_text)
+        
+

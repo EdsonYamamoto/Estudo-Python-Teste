@@ -24,6 +24,10 @@
         {
             "name": "feature/Adicionando_automatizacao_dos_inputs_de_maneira_dinamica",
             "base": "develop"
+        },
+        {
+            "name": "feature/trabalhando_incrementalmente",
+            "base": "develop"
         }
     ]
 }
