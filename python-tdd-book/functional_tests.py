@@ -25,13 +25,12 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import unittest
-import time
 class NewVisitorTest(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
 
     def tearDown(self):
-        time.sleep(4)
+        time.sleep(3)
         self.browser.quit()
 
     def test_can_start_a_list_and_retrieve_it_later(self):
@@ -72,7 +71,8 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
         time.sleep(1)
 
-        table = self.browser.find_element_by_tag_name('tr')
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
         self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
         self.assertIn('2: Use peacock feathers to make a fly',[row.text for row in rows])
 
