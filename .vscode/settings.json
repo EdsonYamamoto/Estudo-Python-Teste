@@ -16,6 +16,14 @@
         {
             "name": "feature/Saving_the_POST_to_the_Database",
             "base": "develop"
+        },
+        {
+            "name": "feature/MelhoramentoTesteFuncional",
+            "base": "develop"
+        },
+        {
+            "name": "feature/Adicionando_automatizacao_dos_inputs_de_maneira_dinamica",
+            "base": "develop"
         }
     ]
 }
